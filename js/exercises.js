@@ -63,7 +63,13 @@ const Exercises = {
   },
 
   // true, wenn gleich nach _loose oder nur eine Plural-/Beugungsendung Unterschied ("Wellen" = "Welle")
+  // Fremdsprachen (KA.looseInput: false): nur Groß/klein, Leerzeichen, Satzzeichen am Ende egal,
+  // denn dort sind -s, -e, Artikel und Akzente genau das, was geübt wird ("makes", "petite").
   _wordMatch(typed, answer) {
+    if (typeof KA !== 'undefined' && KA.looseInput === false) {
+      const strict = function(x) { return Exercises._norm(String(x == null ? '' : x).replace(/<[^>]+>/g, '')).replace(/\s*[.!?;]+$/, ''); };
+      return strict(typed) !== '' && strict(typed) === strict(answer);
+    }
     const a = Exercises._loose(typed), b = Exercises._loose(answer);
     if (a === '' || b === '') return false;
     if (a === b) return true;
