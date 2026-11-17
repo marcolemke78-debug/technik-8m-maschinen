@@ -14,7 +14,6 @@ const KA = {
     { title: 'Maschinenelemente', page: 'S. 166', lessons: [3] },
     { title: 'Getriebearten', page: 'S. 168', lessons: [4] },
     { title: 'Übersetzungsverhältnis i', page: 'S. 169', lessons: [5] },
-    { title: 'Drehzahl berechnen', page: 'S. 169', lessons: [6] },
     { title: 'Drehrichtung und Zwischenrad', page: 'S. 169', lessons: [7] },
     { title: 'Fachbegriffe', page: '', trainer: true }
   ],
@@ -32,6 +31,5 @@ const LESSONS = [
   { id: 3, title: 'Maschinenelemente', module: 'm1' },
   { id: 4, title: 'Getriebearten', module: 'm2' },
   { id: 5, title: 'Übersetzungsverhältnis i', module: 'm2' },
-  { id: 6, title: 'Drehzahl berechnen', module: 'm2' },
   { id: 7, title: 'Drehrichtung und Zwischenrad', module: 'm2' }
 ];

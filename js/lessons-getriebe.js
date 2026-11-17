@@ -1,7 +1,8 @@
 /**
  * Modul 2: Getriebe (Buch S. 168–169 und Marcos ABs "Getriebe übertragen und wandeln Kräfte"
  * und "Rechnen mit Zahnrädern", nur als inhaltliche Vorlage; Zahlen in den Übungen sind neu).
- * Lektionen 4–7: Getriebearten · Übersetzungsverhältnis · Drehzahl · Drehrichtung und Zwischenrad
+ * Lektionen 4, 5, 7: Getriebearten · Übersetzungsverhältnis · Drehrichtung und Zwischenrad
+ * (Lektion 6 "Drehzahl berechnen" am 17.11.2026 rausgenommen, kommt nicht im Test. ID 6 nicht neu vergeben.)
  * Alle Rechenaufgaben werden in pruefung/nachrechnen.js nachgerechnet.
  */
 
@@ -219,6 +220,23 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
       },
       {
         type: 'multiple-choice',
+        question: 'Finde den Fehler! Lena soll i berechnen: z<sub>1</sub> = 36, z<sub>2</sub> = 12.<br>Lena rechnet: i = 36 : 12 = 3 : 1, also eine Übersetzung ins Langsame.<br>Wo steckt der Fehler?',
+        options: [
+          'Sie hat z₁ und z₂ vertauscht.',
+          'Sie hat falsch gekürzt, 36 : 12 ergibt gekürzt 4 : 1.',
+          'i = 3 : 1 stimmt, aber das ist ins Schnelle.',
+          'Es ist alles richtig.'
+        ],
+        correct: 0,
+        wrongExplanations: {
+          1: '36 : 12 gekürzt ist wirklich 3 : 1. Der Fehler steckt schon davor: in der Reihenfolge.',
+          2: 'i = 3 : 1 wäre wirklich ins Langsame. Aber i = 3 : 1 stimmt nicht, weil z₂ vorne stehen muss.',
+          3: 'Schau auf die Räder: Das große Rad (36) treibt das kleine (12) an. Das muss ins Schnelle gehen, nicht ins Langsame.'
+        },
+        explanation: 'Richtig ist i = z₂ : z₁ = 12 : 36 = 1 : 3, also ins Schnelle. Probe: Groß treibt Klein an, das kleine Rad dreht schneller.'
+      },
+      {
+        type: 'multiple-choice',
         question: 'Du fährst mit dem Fahrrad einen steilen Berg hoch. Auf welches Ritzel schaltest du hinten, und warum?',
         options: ['Auf ein großes Ritzel: Übersetzung ins Langsame, mehr Kraft', 'Auf ein kleines Ritzel: Übersetzung ins Schnelle, mehr Kraft', 'Auf ein kleines Ritzel: Übersetzung ins Langsame, mehr Kraft', 'Egal, die Übersetzung ändert nur die Geschwindigkeit'],
         correct: 0,
@@ -227,104 +245,6 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
           2: 'Ein kleines Ritzel hinten ergibt eine Übersetzung ins Schnelle, nicht ins Langsame.',
           3: 'Die Übersetzung ändert Drehzahl UND Kraft. Genau deshalb schaltet man am Berg.'
         }
-      }
-    ]
-  },
-
-  // ---------------------------------------------------------------- L6
-  {
-    id: 6,
-    title: 'Drehzahl berechnen',
-    explanation: {
-      html: `
-        <p>Die <strong>Drehzahl n</strong> sagt, wie oft sich ein Rad in einer Minute dreht. Einheit: <strong>U/min</strong> (Umdrehungen pro Minute). n<sub>1</sub> gehört zum Antriebsrad, n<sub>2</sub> zum Abtriebsrad.</p>
-        <p class="formel">i = z<sub>2</sub> : z<sub>1</sub> = n<sub>1</sub> : n<sub>2</sub></p>
-        <div class="warning-box"><strong>Achtung, Falle:</strong> Bei den <strong>Zähnen</strong> steht das <strong>Abtriebsrad vorne</strong>, bei den <strong>Drehzahlen</strong> das <strong>Antriebsrad</strong>. Das passt: Das Rad mit weniger Zähnen dreht sich schneller.</div>
-        <h3>So rechnest du n<sub>2</sub></h3>
-        <table class="info-table">
-          <tr><th>i (gekürzt)</th><th>Bedeutung</th><th>Rechnung</th></tr>
-          <tr><td>1 : 3 (ins Schnelle)</td><td>Abtrieb dreht 3-mal so schnell</td><td>n<sub>2</sub> = n<sub>1</sub> <strong>· 3</strong></td></tr>
-          <tr><td>3 : 1 (ins Langsame)</td><td>Abtrieb dreht 3-mal langsamer</td><td>n<sub>2</sub> = n<sub>1</sub> <strong>: 3</strong></td></tr>
-        </table>
-        <div class="tip-box"><strong>Probe:</strong> Das <strong>kleinere</strong> Rad muss sich <strong>schneller</strong> drehen. Ist dein Ergebnis andersherum, hast du z<sub>1</sub> und z<sub>2</sub> vertauscht.</div>
-        <div class="analogy-box"><strong>Wie im Alltag:</strong> Ein Kind und ein Erwachsener gehen nebeneinander gleich schnell. Das Kind mit den kurzen Beinen muss viel mehr Schritte machen. Genauso muss das kleine Zahnrad sich öfter drehen, um mit dem großen mitzuhalten.</div>
-        <div class="why-context"><strong>Warum ist das wichtig?</strong> Bei der Tischbohrmaschine stellst du mit dem Riemen die Drehzahl ein. Dicke Bohrer und Metall brauchen eine kleine Drehzahl, sonst wird der Bohrer heiß und stumpf.</div>`
-    },
-    example: {
-      title: 'Musterbeispiel: z₁ = 60, z₂ = 20, n₁ = 45 U/min',
-      steps: [
-        { label: 'i aufstellen', html: '<p>i = z<sub>2</sub> : z<sub>1</sub> = 20 : 60<br><em>Warum?</em> Bei den Zähnen steht das Abtriebsrad vorne.</p>' },
-        { label: 'Kürzen', html: '<p>Durch 20 teilen: i = <strong>1 : 3</strong><br><em>Warum?</em> Jetzt siehst du: 1 Umdrehung am Antrieb gibt 3 am Abtrieb.</p>' },
-        { label: 'Deuten', html: '<p>i kleiner als 1 → <strong>Übersetzung ins Schnelle</strong>. Der Abtrieb dreht 3-mal so schnell.</p>' },
-        { label: 'Drehzahl rechnen', html: '<p>n<sub>2</sub> = 45 · 3 = <strong>135 U/min</strong><br><em>Warum mal?</em> Ins Schnelle heißt: Der Abtrieb dreht öfter.</p>' },
-        { label: 'Probe', html: '<p>Das kleine Rad (20 Zähne) dreht schneller (135) als das große (45). ✓</p>' }
-      ]
-    },
-    exercisesIntro: 'Erst fehlt nur der letzte Schritt, dann zwei, dann rechnest du allein. Gib bei Drehzahlen nur die Zahl ein, die Einheit steht schon da. Schreib Verhältnisse so: <strong>3 : 1</strong>',
-    exercises: [
-      {
-        type: 'number',
-        question: 'Rechne zu Ende. Gegeben: z<sub>1</sub> = 40, z<sub>2</sub> = 10, n<sub>1</sub> = 30 U/min.<br>Schritt 1: i = 10 : 40. Schritt 2: gekürzt i = 1 : 4. Schritt 3: Übersetzung ins Schnelle, der Abtrieb dreht 4-mal so schnell.<br>Schritt 4: n<sub>2</sub> = ?',
-        answer: 120,
-        unit: 'U/min',
-        solution: 'n₂ = 30 · 4 = <strong>120 U/min</strong>'
-      },
-      {
-        type: 'fill-in-blank',
-        question: 'Jetzt fehlen zwei Schritte. Gegeben: z<sub>1</sub> = 16, z<sub>2</sub> = 48, n<sub>1</sub> = 90 U/min.<br>Schritt 1: i = 48 : 16.',
-        text: 'Schritt 2: gekürzt i = {{blank}}. Schritt 3: n<sub>2</sub> = {{blank}} U/min.',
-        blanks: [
-          { correct: '3 : 1', alternatives: ['3:1', '3 :1', '3: 1', '3 zu 1', '3/1', 'i = 3 : 1', 'i=3:1', 'i = 3:1'] },
-          { correct: '30', alternatives: ['30 U/min'] }
-        ],
-        explanation: '48 : 16 = 3 : 1 → Übersetzung ins Langsame, also n₂ = 90 : 3 = 30 U/min. Probe: Das große Rad dreht langsamer. ✓'
-      },
-      {
-        type: 'number',
-        question: 'Allein: z<sub>1</sub> = 18, z<sub>2</sub> = 54, n<sub>1</sub> = 150 U/min. Wie groß ist n<sub>2</sub>?',
-        answer: 50,
-        unit: 'U/min',
-        hint: 'Erst i aufstellen und kürzen. Ist es ins Schnelle oder ins Langsame?',
-        solution: 'i = 54 : 18 = 3 : 1 (ins Langsame)<br>n₂ = 150 : 3 = <strong>50 U/min</strong>'
-      },
-      {
-        type: 'number',
-        question: 'Eine Handkurbel hat ein Zahnrad mit 36 Zähnen (Antrieb). Es treibt ein Rad mit 12 Zähnen an. Du kurbelst 50-mal pro Minute. Wie oft dreht sich das Abtriebsrad pro Minute?',
-        answer: 150,
-        unit: 'U/min',
-        hint: 'Großes Rad treibt kleines an.',
-        solution: 'i = 12 : 36 = 1 : 3 (ins Schnelle)<br>n₂ = 50 · 3 = <strong>150 U/min</strong>'
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Finde den Fehler! Lena soll n<sub>2</sub> berechnen: z<sub>1</sub> = 36, z<sub>2</sub> = 12, n<sub>1</sub> = 60 U/min.<br>Lena rechnet: i = 36 : 12 = 3 : 1, also n<sub>2</sub> = 60 : 3 = 20 U/min.<br>Wo steckt der Fehler?',
-        options: [
-          'Sie hat z₁ und z₂ vertauscht.',
-          'Sie hat falsch gekürzt, 36 : 12 ergibt gekürzt 4 : 1.',
-          'Sie hätte 60 · 3 rechnen müssen, i = 3 : 1 stimmt aber.',
-          'Es ist alles richtig.'
-        ],
-        correct: 0,
-        wrongExplanations: {
-          1: '36 : 12 gekürzt ist wirklich 3 : 1. Der Fehler steckt schon davor: in der Reihenfolge.',
-          2: 'Bei i = 3 : 1 wäre &bdquo;geteilt durch 3&ldquo; richtig. Aber i = 3 : 1 stimmt nicht, weil z₂ vorne stehen muss.',
-          3: 'Mach die Probe: Das kleine Rad (12 Zähne) müsste schneller drehen als 60 U/min. Lenas 20 U/min sind langsamer.'
-        }
-      },
-      {
-        type: 'number',
-        question: 'Rechne Lenas Aufgabe richtig: z<sub>1</sub> = 36, z<sub>2</sub> = 12, n<sub>1</sub> = 60 U/min. n<sub>2</sub> = ?',
-        answer: 180,
-        unit: 'U/min',
-        solution: 'i = 12 : 36 = 1 : 3 (ins Schnelle)<br>n₂ = 60 · 3 = <strong>180 U/min</strong><br>Probe: Das kleine Rad dreht schneller. ✓'
-      },
-      {
-        type: 'number',
-        question: 'Gemischt: Ein Motor dreht eine Riemenscheibe mit <strong>120 mm</strong> Durchmesser mit 500 U/min. Der Riemen treibt eine Scheibe mit <strong>40 mm</strong> Durchmesser an. Wie schnell dreht sie sich?',
-        answer: 1500,
-        unit: 'U/min',
-        hint: 'Welche Getriebeart ist das? Bei Riemen nimmst du die Durchmesser statt der Zähne.',
-        solution: 'Zugmittelgetriebe mit Riemen → Durchmesser nehmen<br>i = 40 : 120 = 1 : 3 (ins Schnelle)<br>n₂ = 500 · 3 = <strong>1500 U/min</strong>'
       }
     ]
   },
@@ -388,12 +308,14 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         explanation: 'Zwischenrad = nur Richtungswechsel. Kette und Riemen = gleiche Richtung (außer der Riemen liegt über Kreuz).'
       },
       {
-        type: 'number',
-        question: 'Rad 1 (Antrieb) hat 16 Zähne und dreht mit 120 U/min. Rad 2 ist ein Zwischenrad mit 25 Zähnen. Rad 3 (Abtrieb) hat 48 Zähne. Wie schnell dreht Rad 3?',
-        answer: 40,
-        unit: 'U/min',
-        hint: 'Das Zwischenrad lässt du beim Rechnen weg.',
-        solution: 'Nur erstes und letztes Rad: i = 48 : 16 = 3 : 1 (ins Langsame)<br>n₃ = 120 : 3 = <strong>40 U/min</strong>'
+        type: 'fill-in-blank',
+        question: 'Rad 1 (Antrieb) hat 16 Zähne. Rad 2 ist ein Zwischenrad mit 25 Zähnen. Rad 3 (Abtrieb) hat 48 Zähne. Tipp: Das Zwischenrad lässt du beim Rechnen weg.',
+        text: 'i = {{blank}}. Das ist eine Übersetzung ins {{blank}}.',
+        blanks: [
+          { correct: '3 : 1', alternatives: ['3:1', '3 :1', '3: 1', '3 zu 1', '3/1', 'i = 3 : 1', 'i=3:1', 'i = 3:1'] },
+          { correct: 'Langsame', alternatives: ['langsame'] }
+        ],
+        explanation: 'Nur erstes und letztes Rad zählen: i = 48 : 16 = 3 : 1. i ist größer als 1, also ins Langsame. Die 25 Zähne des Zwischenrads spielen keine Rolle.'
       },
       {
         type: 'fill-in-blank',

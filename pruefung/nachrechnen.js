@@ -19,13 +19,7 @@ const jsDir = path.join(__dirname, '..', 'js');
 // i = z2 : z1. Ins Schnelle (z1 > z2): n2 = n1 * z1 / z2. Allgemein: n2 = n1 * z1 / z2.
 const n2 = (z1, z2, n1) => n1 * z1 / z2;
 const RECHNUNGEN = {
-  'Am Abtrieb soll 5-mal so viel Kraft': () => 5 * 12,                 // L5: z2 = 5 * z1
-  'z<sub>1</sub> = 40, z<sub>2</sub> = 10, n<sub>1</sub> = 30': () => n2(40, 10, 30),
-  'z<sub>1</sub> = 18, z<sub>2</sub> = 54, n<sub>1</sub> = 150': () => n2(18, 54, 150),
-  'Zahnrad mit 36 Zähnen (Antrieb)': () => n2(36, 12, 50),
-  'Rechne Lenas Aufgabe richtig': () => n2(36, 12, 60),
-  '<strong>120 mm</strong> Durchmesser': () => n2(120, 40, 500),      // Riemen: Durchmesser statt Zähne
-  'Rad 1 (Antrieb) hat 16 Zähne': () => n2(16, 48, 120)               // Zwischenrad egal
+  'Am Abtrieb soll 5-mal so viel Kraft': () => 5 * 12                  // L5: z2 = 5 * z1
 };
 
 // Lückentexte mit Zahlen/Verhältnissen: erwartete Lösung aus dem Text neu gerechnet
@@ -34,8 +28,8 @@ const ratio = (z1, z2) => { const g = gcd(z2, z1); return (z2 / g) + ' : ' + (z1
 const LUECKEN = {
   'z<sub>1</sub> = 14, z<sub>2</sub> = 42': [ratio(14, 42), 'Langsame'],
   'Kettenblatt mit 39 Zähnen': [ratio(39, 13), String(39 / 13)],
-  'z<sub>1</sub> = 16, z<sub>2</sub> = 48, n<sub>1</sub> = 90': [ratio(16, 48), String(n2(16, 48, 90))],
-  'Das letzte Rad soll sich <strong>halb so schnell</strong>': [String(2 * 20), '3']
+  'Das letzte Rad soll sich <strong>halb so schnell</strong>': [String(2 * 20), '3'],
+  'Rad 1 (Antrieb) hat 16 Zähne': [ratio(16, 48), 'Langsame']  // Zwischenrad egal
 };
 Object.keys(LUECKEN).forEach(k => {
   let found = false;

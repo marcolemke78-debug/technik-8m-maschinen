@@ -35,7 +35,6 @@ const CARDS = {
     { id: 'g07', front: 'Buchstabe für das Übersetzungsverhältnis', back: 'i' },
     { id: 'g08', front: 'Formel für das Übersetzungsverhältnis (mit Zähnezahlen)', back: 'i = z2 : z1', alt: ['i=z2:z1', 'i = z2:z1', 'i=z2 : z1', 'z2 : z1', 'z2:z1', 'i = z2/z1', 'i=z2/z1', 'z2/z1'] },
     { id: 'g09', front: 'Rad, das ein Antriebs- und ein Abtriebsrad verbindet und nur die Drehrichtung ändert', back: 'Zwischenrad' },
-    { id: 'g10', front: 'Einheit der Drehzahl (Abkürzung)', back: 'U/min', alt: ['Umdrehungen pro Minute', '1/min'] },
     { id: 'g11', front: 'Was passiert bei einer Übersetzung ins Schnelle mit Drehzahl und Kraft am Abtrieb?', back: 'Der Abtrieb dreht schneller, hat aber weniger Kraft. Das große Rad treibt das kleine an, i ist kleiner als 1.', mode: 'reveal' },
     { id: 'g12', front: 'Was ist der Unterschied zwischen Achse und Welle?', back: 'Die Welle wird gedreht und treibt etwas an. Die Achse trägt nur drehende Teile, sie treibt nichts an, auch wenn sie sich mitdreht.', mode: 'reveal' }
   ]
