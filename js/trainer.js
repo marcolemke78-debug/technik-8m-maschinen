@@ -28,7 +28,7 @@ const Trainer = {
     let t = Exercises._norm(String(s).replace(/<[^>]+>/g, '')).replace(/[.!?]+$/, '');
     if (CARDS.speak && CARDS.speak.indexOf('en') === 0) t = t.replace(/^to\s+/, '');
     // Formelkarten (formula: true): Leerzeichen, Unterstriche und gleichwertige Rechenzeichen egal
-    if (formula) t = t.replace(/[\s_]/g, '').replace(/[·×x*]/g, '*').replace(/[:÷]/g, '/').replace(/[−–]/g, '-').replace(/,/g, '.');
+    if (formula) t = t.replace(/[\u2080-\u2089]/g, c => String(c.charCodeAt(0) - 0x2080)).replace(/[\s_]/g, '').replace(/[·⋅•×x*]/g, '*').replace(/[:÷]/g, '/').replace(/[−–]/g, '-').replace(/,/g, '.');
     return t;
   },
 
@@ -51,10 +51,17 @@ const Trainer = {
   // 'right' | 'almost' | 'wrong'
   judge(typed, item) {
     const t = this.norm(typed, item.formula);
-    const answers = [item.back].concat(item.alt || []).map(x => this.norm(x, item.formula));
+    // accept: weitere richtige Antworten, die in der Rückmeldung NICHT angezeigt werden
+    const raw = [item.back].concat(item.alt || [], item.accept || []);
+    const answers = raw.map(x => this.norm(x, item.formula));
     if (answers.indexOf(t) !== -1) return 'right';
+    // Artikel, Plural, Bindestrich, Umlaut ohne Punkte ("Walzlager") zählen als richtig
+    if (!item.formula && raw.some(x => Exercises._wordMatch(typed, x))) return 'right';
     // Bei Formeln ist ein anderes Zeichen kein Tippfehler, sondern falsch: kein "fast richtig"
-    if (!item.formula && answers.some(a => a.length >= 4 && this.distance(t, a) === 1)) return 'almost';
+    // Ein anderer Fachbegriff der App ("Antriebsteil" statt "Arbeitsteil") ist kein Tippfehler
+    const lt = Exercises._loose(typed);
+    if (CARDS.items.some(o => o !== item && [o.back].concat(o.alt || [], o.accept || []).some(x => Exercises._loose(x) === lt))) return 'wrong';
+    if (!item.formula && /[a-zäöüß]/.test(t) && raw.some(x => { const a = Exercises._loose(x); return a.length >= 4 && this.distance(Exercises._loose(typed), a) === 1; })) return 'almost';
     return 'wrong';
   },
 

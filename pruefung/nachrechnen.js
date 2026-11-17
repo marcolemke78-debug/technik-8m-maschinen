@@ -28,7 +28,7 @@ const ratio = (z1, z2) => { const g = gcd(z2, z1); return (z2 / g) + ' : ' + (z1
 const LUECKEN = {
   'z<sub>1</sub> = 14, z<sub>2</sub> = 42': [ratio(14, 42), 'Langsame'],
   'Kettenblatt mit 39 Zähnen': [ratio(39, 13), String(39 / 13)],
-  'Das letzte Rad soll sich <strong>halb so schnell</strong>': [String(2 * 20), '3'],
+  'Das letzte Zahnrad soll sich <strong>halb so schnell</strong>': [String(2 * 20), '3'],
   'Rad 1 (Antrieb) hat 16 Zähne': [ratio(16, 48), 'Langsame']  // Zwischenrad egal
 };
 Object.keys(LUECKEN).forEach(k => {

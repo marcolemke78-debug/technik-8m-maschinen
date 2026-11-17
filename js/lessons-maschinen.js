@@ -57,7 +57,7 @@ const SVG_ENERGIEFLUSS = `
   <rect x="4" y="4" width="632" height="142" rx="12" fill="none" stroke="#6B7280" stroke-width="2" stroke-dasharray="6 4"/>
   <text x="320" y="138" text-anchor="middle" font-size="12" fill="#4B5563">Gehäuse, Trägerteil und Sicherheitsvorrichtungen halten alles zusammen und schützen</text>
   <g font-size="13" text-anchor="middle">
-    <rect x="16" y="30" width="96" height="58" rx="8" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5 3"/><text x="64" y="50">Strom</text><text x="64" y="66" font-size="11">Steckdose/Akku</text><text x="64" y="81" font-size="10" fill="#6B7280">(keine Baugruppe)</text>
+    <rect x="16" y="30" width="96" height="58" rx="8" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="5 3"/><text x="64" y="50">Strom</text><text x="64" y="66" font-size="11">Steckdose</text><text x="64" y="81" font-size="10" fill="#6B7280">(keine Baugruppe)</text>
     <rect x="140" y="30" width="96" height="58" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/><text x="188" y="55">Schaltteil</text><text x="188" y="72" font-size="11">&bdquo;der Chef&ldquo;</text>
     <rect x="264" y="30" width="96" height="58" rx="8" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/><text x="312" y="50">Antriebsteil</text><text x="312" y="66" font-size="11">&bdquo;der Muskel&ldquo;</text><text x="312" y="81" font-size="10" fill="#6B7280">Motor (+ Akku)</text>
     <rect x="388" y="30" width="110" height="58" rx="8" fill="#FFEDD5" stroke="#EA580C" stroke-width="2"/><text x="443" y="55">Übertragungsteil</text><text x="443" y="72" font-size="11">&bdquo;der Bote&ldquo;</text>
@@ -161,9 +161,9 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Ergänze die Merksätze.',
         text: 'Eine Maschine ist ein {{blank}} aus mehreren Teilen, die gemeinsam eine Aufgabe erfüllen. Jede Maschine besteht aus {{blank}}. Diese bestehen aus einzelnen Maschinenteilen, den {{blank}}.',
         blanks: [
-          { correct: 'System', alternatives: [] },
-          { correct: 'Baugruppen', alternatives: ['Baugruppe'] },
-          { correct: 'Maschinenelementen', alternatives: ['Maschinenelemente', 'Maschinenelement'] }
+          { correct: 'System', alternatives: ['technisches System', 'Gesamtsystem'] },
+          { correct: 'Baugruppen', alternatives: ['Baugruppe', 'mehreren Baugruppen'] },
+          { correct: 'Maschinenelementen', alternatives: ['Maschinenelement', 'Elementen', 'Maschinenteilen', 'Bauelementen', 'Bauteilen'] }
         ],
         explanation: 'Von groß nach klein: Maschine → Baugruppen → Maschinenelemente.'
       },
@@ -279,8 +279,8 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Ergänze.',
         text: 'Bei den meisten Maschinen in der Schule ist ein {{blank}} das Antriebsteil. Das Gehäuse ist das Trägerteil und oft auch eine {{blank}}.',
         blanks: [
-          { correct: 'Elektromotor', alternatives: ['Motor', 'E-Motor', 'Elektro-Motor', 'Elektromotoren'] },
-          { correct: 'Sicherheitsvorrichtung', alternatives: ['Sicherheitsvorrichtungen', 'Schutzvorrichtung', 'Schutzvorrichtungen', 'Sicherheitsteil', 'Sicherheitseinrichtung', 'Schutzeinrichtung', 'Schutzteil'] }
+          { correct: 'Elektromotor', alternatives: ['Motor', 'E-Motor', 'Elektro-Motor', 'Elektromotoren', 'Antriebsmotor', 'Akku und Motor', 'Motor und Akku'] },
+          { correct: 'Sicherheitsvorrichtung', alternatives: ['Sicherheitsvorrichtungen', 'Schutzvorrichtung', 'Schutzvorrichtungen', 'Sicherheitsteil', 'Sicherheitseinrichtung', 'Schutzeinrichtung', 'Schutzteil', 'Schutz', 'Sicherheit', 'Schutzhaube', 'Schutzgehäuse', 'Schutzvorrichtung', 'Sicherheitsteil'] }
         ],
         explanation: 'Der Elektromotor treibt an. Das Gehäuse trägt die Teile und schützt vor beweglichen Teilen und Stromschlag.'
       },
@@ -368,9 +368,9 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Lager: Fülle die Lücken.',
         text: 'Lager verringern die {{blank}}. Beim {{blank}} gleitet die Welle in einer Buchse. Beim {{blank}} rollen Kugeln oder Rollen zwischen zwei Ringen.',
         blanks: [
-          { correct: 'Reibung', alternatives: [] },
-          { correct: 'Gleitlager', alternatives: [] },
-          { correct: 'Wälzlager', alternatives: ['Kugellager', 'Rollenlager', 'Waelzlager'] }
+          { correct: 'Reibung', alternatives: ['Reibungskraft', 'Reibungswiderstand', 'Reibungsverluste'] },
+          { correct: 'Gleitlager', alternatives: ['Gleitlagern'] },
+          { correct: 'Wälzlager', alternatives: ['Kugellager', 'Rollenlager', 'Waelzlager', 'Nadellager'] }
         ],
         explanation: 'Gleiten = rutschen (Gleitlager), Wälzen = rollen (Wälzlager, z. B. Kugellager).'
       },

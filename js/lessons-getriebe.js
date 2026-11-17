@@ -114,8 +114,8 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Ergänze.',
         text: 'Getriebe gehören zum {{blank}} einer Maschine. Bei einem {{blank}} berühren sich die Räder nicht, eine Kette oder ein Riemen verbindet sie.',
         blanks: [
-          { correct: 'Übertragungsteil', alternatives: ['Uebertragungsteil'] },
-          { correct: 'Zugmittelgetriebe', alternatives: ['Kettengetriebe', 'Riemengetriebe'] }
+          { correct: 'Übertragungsteil', alternatives: ['Uebertragungsteil', 'Übertragungsbaugruppe', 'Übertragung'] },
+          { correct: 'Zugmittelgetriebe', alternatives: ['Kettengetriebe', 'Riemengetriebe', 'Zugmittel', 'Kettenantrieb', 'Riemenantrieb', 'Kettentrieb', 'Riementrieb', 'Ketten- oder Riemengetriebe'] }
         ],
         explanation: 'Getriebe übertragen die Bewegung vom Antrieb zum Arbeitsteil, darum Übertragungsteil.'
       },
@@ -164,7 +164,7 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         type: 'fill-in-blank',
         question: 'Rechne zu Ende. Gegeben: z<sub>1</sub> = 48, z<sub>2</sub> = 16.<br>Schritt 1: i = 16 : 48. Schritt 2: gekürzt i = 1 : 3. Schritt 3: Übersetzung ins Schnelle.',
         text: 'Schritt 4: Die Kraft am Abtrieb ist nur noch {{blank}} so groß.',
-        blanks: [{ correct: 'ein Drittel', alternatives: ['1/3', 'ein drittel', 'drittel', '1 drittel', 'ein 1/3', '1:3', '1 : 3', 'ein Drittel so groß'] }],
+        blanks: [{ correct: 'ein Drittel', alternatives: ['1/3', 'drittel', '1 drittel', 'ein 1/3', '1:3', 'ein Drittel so groß', '1/3 so groß', 'ein Drittel der Kraft', '1/3 der Kraft', '0,33', '0,333', '33 %', '33,3 %', 'dritteln', 'ein Drittel mal'] }],
         explanation: 'Der Abtrieb dreht 3-mal so schnell, darum bleibt nur ein Drittel der Kraft.'
       },
       {
@@ -172,8 +172,8 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Jetzt fehlen die letzten zwei Schritte. Gegeben: z<sub>1</sub> = 14, z<sub>2</sub> = 42.<br>Schritt 1: i = 42 : 14.',
         text: 'Schritt 2: gekürzt i = {{blank}}. Schritt 3: Das ist eine Übersetzung ins {{blank}}.',
         blanks: [
-          { correct: '3 : 1', alternatives: ['3:1', '3 :1', '3: 1', '3 zu 1', '3/1', 'i = 3 : 1', 'i=3:1', 'i = 3:1'] },
-          { correct: 'Langsame', alternatives: ['langsame'] }
+          { correct: '3 : 1', alternatives: ['3', '3,0', 'i = 3', '48 : 16', '42 : 14'] },
+          { correct: 'Langsame', alternatives: ['langsam', 'langsamere', 'Langsamen'] }
         ],
         explanation: '42 : 14 = 3 : 1 (beide durch 14). i ist größer als 1, das kleine Rad treibt das große an: Übersetzung ins Langsame.'
       },
@@ -182,8 +182,8 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Jetzt allein: Ein Fahrrad hat vorne ein Kettenblatt mit 39 Zähnen (Antrieb) und hinten ein Ritzel mit 13 Zähnen (Abtrieb).',
         text: 'i = {{blank}}. Bei einer Kurbelumdrehung dreht sich das Hinterrad {{blank}}-mal.',
         blanks: [
-          { correct: '1 : 3', alternatives: ['1:3', '1 :3', '1: 3', '1 zu 3', '1/3', 'i = 1 : 3', 'i=1:3', 'i = 1:3'] },
-          { correct: '3', alternatives: ['drei'] }
+          { correct: '1 : 3', alternatives: ['13 : 39', '0,33', '0,333'] },
+          { correct: '3', alternatives: ['drei', '3-mal', '3 mal', '3x', 'dreimal', 'drei mal', '3 Mal'] }
         ],
         explanation: 'i = z₂ : z₁ = 13 : 39 = 1 : 3. Das kleine Ritzel dreht sich 3-mal, und das Hinterrad dreht sich mit dem Ritzel.'
       },
@@ -301,8 +301,8 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Ergänze.',
         text: 'Ein Zwischenrad ändert nur die {{blank}}, nicht die Übersetzung. Bei einer Fahrradkette drehen sich Kettenblatt und Ritzel in die {{blank}} Richtung.',
         blanks: [
-          { correct: 'Drehrichtung', alternatives: ['Richtung'] },
-          { correct: 'gleiche', alternatives: ['selbe', 'gleichen'] }
+          { correct: 'Drehrichtung', alternatives: ['Richtung', 'Laufrichtung', 'Drehrichtung des Abtriebs'] },
+          { correct: 'gleiche', alternatives: ['selbe', 'gleichen', 'selben', 'dieselbe', 'gleiche Richtung', 'selbe Richtung', 'gleich'] }
         ],
         explanation: 'Zwischenrad = nur Richtungswechsel. Kette und Riemen = gleiche Richtung (außer der Riemen liegt über Kreuz).'
       },
@@ -311,18 +311,18 @@ window.LESSON_DATA = (window.LESSON_DATA || []).concat([
         question: 'Rad 1 (Antrieb) hat 16 Zähne. Rad 2 ist ein Zwischenrad mit 25 Zähnen. Rad 3 (Abtrieb) hat 48 Zähne. Tipp: Das Zwischenrad lässt du beim Rechnen weg.',
         text: 'i = {{blank}}. Das ist eine Übersetzung ins {{blank}}.',
         blanks: [
-          { correct: '3 : 1', alternatives: ['3:1', '3 :1', '3: 1', '3 zu 1', '3/1', 'i = 3 : 1', 'i=3:1', 'i = 3:1'] },
-          { correct: 'Langsame', alternatives: ['langsame'] }
+          { correct: '3 : 1', alternatives: ['3', '3,0', 'i = 3', '48 : 16', '42 : 14'] },
+          { correct: 'Langsame', alternatives: ['langsam', 'langsamere', 'Langsamen'] }
         ],
         explanation: 'Nur erstes und letztes Rad zählen: i = 48 : 16 = 3 : 1. i ist größer als 1, also ins Langsame. Die 25 Zähne des Zwischenrads spielen keine Rolle.'
       },
       {
         type: 'fill-in-blank',
-        question: 'Gemischt: Ein Antriebsrad hat 20 Zähne. Das letzte Rad soll sich <strong>halb so schnell</strong> drehen und in die <strong>gleiche Richtung</strong> wie das Antriebsrad. Plane das Getriebe.',
+        question: 'Gemischt: Ein Antriebs<strong>zahnrad</strong> hat 20 Zähne. Das letzte Zahnrad soll sich <strong>halb so schnell</strong> drehen und in die <strong>gleiche Richtung</strong> wie das Antriebsrad. Plane ein Getriebe <strong>nur aus Zahnrädern</strong>, die direkt ineinandergreifen (keine Kette, kein Riemen).',
         text: 'Das letzte Rad braucht {{blank}} Zähne. Man braucht mindestens {{blank}} Räder.',
         blanks: [
-          { correct: '40', alternatives: [] },
-          { correct: '3', alternatives: ['drei'] }
+          { correct: '40', alternatives: ['40 Zähne', 'vierzig'] },
+          { correct: '3', alternatives: ['drei', '3 Räder', 'drei Räder', '3 Zahnräder', 'drei Zahnräder'] }
         ],
         explanation: 'Halb so schnell heißt i = 2 : 1, also 2 · 20 = 40 Zähne. Gleiche Richtung braucht eine ungerade Anzahl: Antriebsrad, Zwischenrad, Abtriebsrad = 3 Räder.'
       },

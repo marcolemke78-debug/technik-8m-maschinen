@@ -145,14 +145,16 @@ const Progress = {
   getPendingSelfChecks() {
     const data = this.load();
     return Object.keys(data.lessons)
-      .filter(id => data.lessons[id].needsSelfCheck)
+      .filter(id => data.lessons[id].needsSelfCheck
+        && LESSONS.some(l => l.id === parseInt(id, 10)))  // gelöschte Lektionen (ID 6) ignorieren
       .map(id => ({ id: parseInt(id, 10), wrongCount: data.lessons[id].wrongCount || 0 }));
   },
   getDueLessons() {
     const data = this.load();
     const today = this.today();
     return Object.keys(data.lessons)
-      .filter(id => data.lessons[id].box && data.lessons[id].dueDate <= today)
+      .filter(id => data.lessons[id].box && data.lessons[id].dueDate <= today
+        && LESSONS.some(l => l.id === parseInt(id, 10)))  // gelöschte Lektionen (ID 6) ignorieren
       .map(id => parseInt(id, 10));
   },
   getConfidence(id) {

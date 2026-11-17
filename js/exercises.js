@@ -34,9 +34,48 @@ const Exercises = {
     return (r < 0 ? '\u2212' : '') + int + (parts[1] ? ',' + parts[1] : '');
   },
 
+  // Getippte Zahl lesen: Einheit hinten weg ("20 mA", "3,5cm"), "1.800" = 1800, "1,8" = 1.8. Keine Zahl → NaN
+  _parseNum(s) {
+    let raw = String(s == null ? '' : s).trim().replace(/\s*[a-zA-ZäöüÄÖÜµΩΩ]+\.?$/, '').replace(/[\s\u202F]/g, '');
+    if (/^-?[1-9]\d{0,2}(\.\d{3})+$/.test(raw)) raw = raw.replace(/\./g, '');
+    raw = raw.replace(',', '.');
+    return /^-?(\d+\.?\d*|\.\d+)$/.test(raw) ? Number(raw) : NaN;
+  },
+
+  // Großzügiger Vergleich für getippte Antworten: Inhalt zählt, nicht die Form.
+  // Egal sind: Artikel und "ins" davor ("die Welle", "ins Langsame"), Leerzeichen und Bindestriche
+  // ("Kegelrad-Getriebe"), Umlaute mit/ohne Punkte/ae ("Walzlager", "Waelzlager"), ß/ss,
+  // tiefgestellte Ziffern (z₂ = z2), Anführungszeichen, Satzzeichen am Ende ("Reibung."),
+  // bei Verhältnissen "i =" davor, "zu" und "/" statt ":" ("1 zu 3", "1/3", "⅓").
+  _loose(s) {
+    return Exercises._norm(String(s == null ? '' : s).replace(/<[^>]+>/g, ''))
+      .replace(/[\u201C\u201D\u201E\u00AB\u00BB"'\u201A]/g, '')
+      .replace(/[₀-₉]/g, function(c) { return String(c.charCodeAt(0) - 0x2080); })
+      .replace(/⅓/g, '1:3').replace(/½/g, '1:2').replace(/¼/g, '1:4')
+      .replace(/^(der|die|das|den|dem|des|ein|eine|einen|einem|einer|ins|im|in die)\s+/, '')
+      .replace(/[.,;!?]+$/, '')
+      .replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ß/g, 'ss')
+      .replace(/ae/g, 'a').replace(/oe/g, 'o').replace(/ue/g, 'u')
+      .replace(/(\d)\s*zu\s*(\d)/g, '$1:$2')
+      .replace(/[\s\-‐-–]/g, '')
+      .replace(/^i=/, '')
+      .replace(/(\d)[\/:÷](\d)/g, '$1:$2');
+  },
+
+  // true, wenn gleich nach _loose oder nur eine Plural-/Beugungsendung Unterschied ("Wellen" = "Welle")
+  _wordMatch(typed, answer) {
+    const a = Exercises._loose(typed), b = Exercises._loose(answer);
+    if (a === '' || b === '') return false;
+    if (a === b) return true;
+    if (!/^[a-z]{4,}$/.test(a) || !/^[a-z]{4,}$/.test(b)) return false;
+    const longer = a.length > b.length ? a : b, shorter = a.length > b.length ? b : a;
+    return longer.indexOf(shorter) === 0 && ['e', 'n', 'en', 'er', 's', 'nen'].indexOf(longer.slice(shorter.length)) !== -1;
+  },
+
   // Eingabe vergleichbar machen: klein, getrimmt, Apostrophe gerade.
   _norm(s) {
     return String(s == null ? '' : s)
+      .normalize('NFC')
       .toLowerCase()
       .replace(/[\u2018\u2019]/g, "'")
       .replace(/\s+/g, ' ')
@@ -187,9 +226,14 @@ const Exercises = {
       rightIndices[j] = rightIndices[rand];
       rightIndices[rand] = temp;
     }
+    // Schon in Lösungsreihenfolge? Dann zwei tauschen
+    if (rightIndices.length > 1 && rightIndices.every(function(v, idx) { return v === idx; })) {
+      rightIndices.push(rightIndices.shift());
+    }
 
     var selectedLeft = null;
     var connections = {};
+    var lastWrongMatch = null;
     var reverseConnections = {};
     var nextColorIndex = 0;
     var connectionColors = {};
@@ -304,7 +348,9 @@ const Exercises = {
         checkBtn.disabled = true;
         onComplete();
       } else {
-        onWrong();
+        var key = JSON.stringify(connections);
+        if (key !== lastWrongMatch) onWrong(); // Doppeltipp zählt nicht doppelt
+        lastWrongMatch = key;
         feedbackEl.textContent = 'Nicht alle Zuordnungen stimmen. Tipp auf ein Paar, um es zu lösen, und versuch es nochmal.';
         feedbackEl.className = 'exercise-feedback incorrect';
         feedbackEl.style.display = 'block';
@@ -399,6 +445,7 @@ const Exercises = {
     checkBtn.textContent = 'Prüfen';
 
     let completed = false;
+    let lastWrongOrder = null;
     checkBtn.addEventListener('click', function() {
       if (completed) return;
       let correctCount = 0;
@@ -414,7 +461,10 @@ const Exercises = {
         list.querySelectorAll('button').forEach(function(b) { b.disabled = true; });
         onComplete();
       } else {
-        onWrong();
+        // Doppeltipp/unveränderte Reihenfolge: kein neuer Fehler
+        const orderNow = items.map(function(it) { return it.originalIndex; }).join(',');
+        if (orderNow !== lastWrongOrder) onWrong();
+        lastWrongOrder = orderNow;
         feedbackEl.textContent = correctCount + ' von ' + items.length + ' an der richtigen Position. Verschiebe die Teile mit den Pfeilen.';
         feedbackEl.className = 'exercise-feedback incorrect';
         feedbackEl.style.display = 'block';
@@ -478,13 +528,32 @@ const Exercises = {
     checkBtn.textContent = 'Prüfen';
 
     let completed = false;
+    let lastWrongFill = null;
 
     function checkOne(input, blank) {
       const typed = Exercises._norm(input.value);
       const candidates = [Exercises._norm(blank.correct)].concat(
         (blank.alternatives || []).map(Exercises._norm)
       );
-      return candidates.indexOf(typed) !== -1;
+      if (candidates.indexOf(typed) !== -1) return true;
+      // Artikel, Plural, Bindestrich, Umlaut-Schreibweise, "i =", "1 zu 3" egal
+      const raw = [blank.correct].concat(blank.alternatives || []);
+      if (raw.some(function(c) { return Exercises._wordMatch(input.value, c); })) return true;
+      // Verhältnisse: ungekürzt zählt auch ("13 : 39" = "1 : 3")
+      const ratio = function(x) {
+        const m = Exercises._loose(x).match(/^(\d+(?:[.,]\d+)?):(\d+(?:[.,]\d+)?)$/);
+        return m ? Number(m[1].replace(',', '.')) / Number(m[2].replace(',', '.')) : NaN;
+      };
+      const rt = ratio(input.value);
+      if (!isNaN(rt) && isFinite(rt) && raw.some(function(c) { const rc = ratio(c); return !isNaN(rc) && Math.abs(rt - rc) < 1e-9; })) return true;
+      // Zahl-Lücken: "6,0" = "6", "0,2 A" = "0,2", "17,95" ≈ "18" (0,5 % Toleranz wie bei Rechenaufgaben)
+      const val = Exercises._parseNum(input.value);
+      if (isNaN(val)) return false;
+      return candidates.some(function(c) {
+        if (!/^[\d.,\s]+$/.test(String(c))) return false; // nur reine Zahl-Lösungen ("1 drittel" ist keine 1)
+        const cv = Exercises._parseNum(c);
+        return !isNaN(cv) && Math.abs(val - cv) <= Math.max(Math.abs(cv) * 0.005, 0.001) + 1e-9;
+      });
     }
 
     checkBtn.addEventListener('click', function() {
@@ -505,10 +574,14 @@ const Exercises = {
         feedbackEl.className = 'exercise-feedback correct';
         feedbackEl.style.display = 'block';
         checkBtn.disabled = true;
+        solveBtn.disabled = true;
         inputs.forEach(function(input) { input.disabled = true; });
         onComplete();
       } else {
-        if (!anyEmpty) onWrong();
+        // Doppeltipp/unveränderte Eingabe: kein neuer Fehler
+        const typedNow = inputs.map(function(inp) { return inp.value; }).join('\u0001');
+        if (!anyEmpty && typedNow !== lastWrongFill) onWrong();
+        if (!anyEmpty) lastWrongFill = typedNow;
         let msg = anyEmpty
           ? 'Fülle bitte alle Lücken aus. Rote Felder stimmen noch nicht.'
           : 'Rote Felder stimmen noch nicht. Schau dir die Regel nochmal an und probier es erneut.';
@@ -523,6 +596,7 @@ const Exercises = {
     solveBtn.className = 'exercise-solve-btn';
     solveBtn.textContent = 'Lösung zeigen';
     solveBtn.addEventListener('click', function() {
+      if (completed) return;
       // Lösung nur ANZEIGEN, nicht ins Feld schreiben: selbst eintippen ist die Übung.
       // Nachschauen zählt wie ein Fehler (Wiederholungsplan).
       onWrong();
@@ -536,9 +610,11 @@ const Exercises = {
     });
 
     // Enter im letzten Feld löst "Prüfen" aus
-    inputs.forEach(function(input) {
+    inputs.forEach(function(input, i) {
       input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') { e.preventDefault(); checkBtn.click(); }
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        if (i < inputs.length - 1) inputs[i + 1].focus(); else checkBtn.click();
       });
     });
 
@@ -597,16 +673,14 @@ const Exercises = {
     const shown = Exercises.fmt(exercise.answer, exercise.digits) + (exercise.unit ? '\u00A0' + exercise.unit : '');
     let tries = 0;
     let done = false;
+    let lastWrong = null;
 
     function check() {
       if (done) return;
       // "1.800" = 1800 (Punkt als Tausendertrenner), "1,8" = 1.8
       // Einheit hinten weglassen ("20 N", "3,5cm", "12 kg"), dann Leerzeichen raus
-      let raw = input.value.trim().replace(/\s*[a-zA-ZäöüÄÖÜµ]+\.?$/, '').replace(/[\s\u202F]/g, '');
-      if (/^-?\d{1,3}(\.\d{3})+$/.test(raw)) raw = raw.replace(/\./g, '');
-      raw = raw.replace(',', '.');
-      if (raw === '') { input.focus(); return; }
-      const val = Number(raw);
+      if (input.value.trim() === '') { input.focus(); return; }
+      const val = Exercises._parseNum(input.value);
       // Keine Zahl erkannt: nur Hinweis, zählt NICHT als Fehlversuch
       if (isNaN(val)) {
         feedbackEl.innerHTML = 'Bitte nur eine Zahl eintippen' + (exercise.unit ? ', die Einheit ' + exercise.unit + ' steht schon daneben.' : '.');
@@ -615,7 +689,7 @@ const Exercises = {
         return;
       }
       input.classList.remove('correct', 'incorrect');
-      if (!isNaN(val) && Math.abs(val - exercise.answer) <= tol) {
+      if (!isNaN(val) && Math.abs(val - exercise.answer) <= tol + 1e-9) {
         done = true;
         input.classList.add('correct');
         input.disabled = true;
@@ -625,8 +699,9 @@ const Exercises = {
         feedbackEl.className = 'exercise-feedback correct';
         onComplete();
       } else {
-        tries++;
-        onWrong();
+        // Doppeltipp/gleiche Zahl nochmal: kein neuer Fehlversuch
+        if (val !== lastWrong) { tries++; onWrong(); }
+        lastWrong = val;
         input.classList.add('incorrect');
         if (tries >= 2 && exercise.solution) {
           feedbackEl.innerHTML = 'So wird gerechnet:<div class="number-solution">' + exercise.solution + '</div>'
