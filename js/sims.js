@@ -2,7 +2,6 @@
  * Interaktive Grafiken (SVG + Schieberegler) für die Erklärungen.
  * In einer Lektion: <div class="sim" data-sim="getriebe"></div>
  * Der Renderer ruft nach dem Anzeigen Sims.initAll(container) auf.
- * Zahnrad-Mathematik aus der Getriebe-Präsentation (gearPath, meshAngle).
  */
 const Sims = {
   TAU: Math.PI * 2,

@@ -1,6 +1,5 @@
 /**
- * Modul 2: Getriebe (Buch S. 168–169 und Marcos ABs "Getriebe übertragen und wandeln Kräfte"
- * und "Rechnen mit Zahnrädern", nur als inhaltliche Vorlage; Zahlen in den Übungen sind neu).
+ * Modul 2: Getriebe
  * Lektionen 4, 5, 7: Getriebearten · Übersetzungsverhältnis · Drehrichtung und Zwischenrad
  * (Lektion 6 "Drehzahl berechnen" am 17.11.2026 rausgenommen, kommt nicht im Test. ID 6 nicht neu vergeben.)
  * Alle Rechenaufgaben werden in pruefung/nachrechnen.js nachgerechnet.

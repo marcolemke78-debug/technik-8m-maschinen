@@ -1,9 +1,9 @@
 /**
- * Modul 1: Maschinen (Buch Kap. 4.1, S. 164–166, nur als inhaltliche Vorlage, eigene Texte und Grafiken).
+ * Modul 1: Maschinen
  * Lektionen 1–3: Was ist eine Maschine? · Die 5 Baugruppen · Maschinenelemente
  */
 
-// Eigene Grafik: Tischbohrmaschine mit Nummern (keine Buchgrafik)
+// Grafik: Tischbohrmaschine mit Nummern
 const SVG_BOHRMASCHINE = `
 <svg viewBox="0 0 360 330" class="lesson-svg" role="img" aria-label="Tischbohrmaschine mit nummerierten Baugruppen">
   <!-- Fuß und Säule -->
@@ -50,7 +50,7 @@ const SVG_BOHRMASCHINE = `
   </g>
 </svg>`;
 
-// Eigene Grafik: Energiefluss durch die Baugruppen
+// Grafik: Energiefluss durch die Baugruppen
 const SVG_ENERGIEFLUSS = `
 <svg viewBox="0 0 640 150" class="lesson-svg" role="img" aria-label="Weg der Energie durch die Baugruppen einer Maschine">
   <defs><marker id="pf-ef" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#374151"/></marker></defs>
@@ -68,7 +68,7 @@ const SVG_ENERGIEFLUSS = `
   </g>
 </svg>`;
 
-// Eigene Grafik: Achse oder Welle?
+// Grafik: Achse oder Welle?
 const SVG_ACHSE_WELLE = `
 <svg viewBox="0 0 600 170" class="lesson-svg" role="img" aria-label="Links eine Welle zwischen Motor und Rührbesen, rechts eine Achse mit Rad">
   <defs><marker id="pf-aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2563EB"/></marker></defs>
@@ -90,7 +90,7 @@ const SVG_ACHSE_WELLE = `
   <text x="450" y="160" text-anchor="middle" font-size="12" fill="#374151">Das Rad dreht sich auf ihr, angetrieben wird nichts</text>
 </svg>`;
 
-// Eigene Grafik: Gleitlager und Wälzlager im Schnitt
+// Grafik: Gleitlager und Wälzlager im Schnitt
 const SVG_LAGER = `
 <svg viewBox="0 0 480 190" class="lesson-svg" role="img" aria-label="Gleitlager und Wälzlager im Schnitt">
   <g transform="translate(120 80)">
